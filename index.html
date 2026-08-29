@@ -14,6 +14,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
+  <!-- Firebase JS SDK (Compat CDN for seamless browser compatibility) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -32,11 +36,11 @@
       <ul class="nav-links">
         <li><a href="#products" class="nav-link">โปรแกรมทั้งหมด</a></li>
         <li><a href="#features" class="nav-link">จุดเด่นระบบ</a></li>
-        <li><a href="#pricing" class="nav-link">แพ็กเกจ & ราคา</a></li>
+        <li><a href="#tutorials" class="nav-link" id="navTutorialsLink" style="display: none;">วิดีโอสอนใช้งาน</a></li>
         <li><a href="#faq" class="nav-link">คำถามที่พบบ่อย</a></li>
         <li>
-          <a href="https://github.com/nzest1995/NZESTHUB/releases" target="_blank" class="nav-link btn-nav-download">
-            📥 ดาวน์โหลด NZEST HUB
+          <a href="#downloadModal" onclick="openDownloadModal()" class="nav-link btn-nav-download" id="navDownloadBtn">
+            📥 ดาวน์โหลด NZEST HUB <span id="navHubVerTag">V.0.058</span>
           </a>
         </li>
       </ul>
@@ -52,7 +56,7 @@
     <div class="container">
       <div class="hero-pill-badge">
         <span class="dot"></span>
-        <span>✨ NZEST HUB V.0.058 Official Release • Real-Time Cloud Ecosystem</span>
+        <span id="heroBadgeText">✨ NZEST HUB V.0.058 Official Release • Real-Time Firestore Sync Active</span>
       </div>
 
       <h1 class="hero-title">
@@ -65,8 +69,8 @@
       </p>
 
       <div class="hero-cta-group">
-        <a href="#downloadModal" onclick="openDownloadModal()" class="btn-hero-primary">
-          <span>⚡ ดาวน์โหลด NZEST HUB (ฟรี)</span>
+        <a href="#downloadModal" onclick="openDownloadModal()" class="btn-hero-primary" id="heroDownloadBtn">
+          <span>⚡ ดาวน์โหลด NZEST HUB (<span id="heroHubVerBtn">V.0.058</span> ฟรี)</span>
         </a>
         <a href="#products" class="btn-hero-secondary">
           <span>🎮 สำรวจโปรแกรมทั้งหมด</span>
@@ -78,14 +82,15 @@
         <div class="deck-header">
           <div class="deck-status">
             <span class="deck-status-dot"></span>
-            <span>All Systems Operational • Direct Cloud Sync Active</span>
+            <span id="dbSyncStatusText">Firebase Firestore Real-Time Sync Connected 🟢</span>
           </div>
           <div style="font-size: 0.85rem; color: #94a3b8;">
             Windows 10/11 64-bit • Premiere Pro CEP Extension Ready
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+        <div id="heroDeckMiniGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+          <!-- Dynamically populated from Firestore or default fallback -->
           <div style="background: rgba(0, 0, 0, 0.4); padding: 18px; border-radius: 12px; border: 1px solid rgba(56, 189, 248, 0.15);">
             <span style="font-size: 1.6rem;">🎵</span>
             <h4 style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-top: 8px;">SFX STUDIO</h4>
@@ -115,120 +120,45 @@
   </header>
 
   <!-- ============================================================================
-       3. PRODUCTS SHOWCASE SECTION
+       3. PRODUCTS SHOWCASE SECTION (REAL-TIME FIRESTORE DRIVEN)
        ============================================================================ -->
   <section class="section" id="products">
     <div class="container">
       <div class="section-title-wrap">
-        <span class="section-badge">Our Flagship Software</span>
-        <h2 class="section-title">โปรแกรมเด่นในเครือ NZEST Ecosystem</h2>
-        <p class="section-desc">ออกแบบและพัฒนาขึ้นเป็นพิเศษ เพื่อตอบโจทย์ Workflow ของนักสร้างสรรค์ยุคใหม่</p>
+        <span class="section-badge">Live Storefront</span>
+        <h2 class="section-title">โปรแกรมทั้งหมดในเครือ NZEST Ecosystem</h2>
+        <p class="section-desc">ข้อมูลและเวอร์ชันซิงค์สดตรงจาก Firebase Firestore Database</p>
       </div>
 
-      <div class="product-grid">
-        
-        <!-- CARD 1: SFX STUDIO -->
-        <div class="product-card">
-          <div>
-            <div class="product-card-top">
-              <div class="product-icon-wrap">🎵</div>
-              <span class="product-badge-pill">V.2.063 • Official Release</span>
-            </div>
-            <div class="product-category">Audio & Sound FX</div>
-            <h3 class="product-name">SFX STUDIO PRO</h3>
-            <p class="product-desc">
-              คลังเสียงเอฟเฟกต์และ Multi-Track Sound Engine ระดับสตูดิโอ พร้อม Hotkey ควบคุมเสียงแบบเรียลไทม์ และปลั๊กอิน Premiere Pro Extension
-            </p>
-
-            <ul class="product-features">
-              <li class="product-feature-item"><span class="check">✓</span> เล่นเสียงเอฟเฟกต์แบบ Multi-Track ซ้อนกันได้ไม่สะดุด</li>
-              <li class="product-feature-item"><span class="check">✓</span> Adobe Premiere Pro CEP Extension ลากวางเสียงลงไทม์ไลน์ทันที</li>
-              <li class="product-feature-item"><span class="check">✓</span> Global Background Hotkey กดปุ่มลัดได้แม้พับหน้าต่าง</li>
-              <li class="product-feature-item"><span class="check">✓</span> รองรับ MP3, WAV, AAC, FLAC, OGG, M4A ค้นหาด้วยความเร็วสูง</li>
-            </ul>
-          </div>
-
-          <div class="product-pricing-bar">
-            <div>
-              <span class="price-text">฿249.- <span class="old-price">฿459</span></span>
-              <div style="font-size: 0.75rem; color: #10b981;">สิทธิ์ LIFETIME (ซื้อขาด 1 HWID)</div>
-            </div>
-            <button class="btn-card-action" onclick="openOrderModal('SFX_STUDIO', 'SFX STUDIO PRO', '249')">
-              🛒 สั่งซื้อทันที
-            </button>
-          </div>
+      <!-- Dynamic Product Grid -->
+      <div class="product-grid" id="productGrid">
+        <!-- Rendered by app.js via Firestore Real-Time Listener -->
+        <div style="text-align: center; grid-column: 1 / -1; padding: 40px; color: var(--primary-cyan);">
+          ⏳ กำลังซิงค์ข้อมูลโปรแกรมล่าสุดจาก Firestore Cloud...
         </div>
-
-        <!-- CARD 2: NZEST CUT -->
-        <div class="product-card">
-          <div>
-            <div class="product-card-top">
-              <div class="product-icon-wrap">🎬</div>
-              <span class="product-badge-pill">V.0.049 • AI Brain Suite</span>
-            </div>
-            <div class="product-category">Video & Animation AI</div>
-            <h3 class="product-name">NZEST CUT PRO</h3>
-            <p class="product-desc">
-              โปรแกรมตัดต่อวิดีโอ AI อัจฉริยะ ตรวจจับและตัดช่วงเงียบ (Silence Removal) อัตโนมัติในไม่กี่วินาที พร้อมสร้างซับไตเติลภาษาไทยแม่นยำ
-            </p>
-
-            <ul class="product-features">
-              <li class="product-feature-item"><span class="check">✓</span> AI Voice Activity Detection (VAD) ตัดช่วงเงียบอัตโนมัติแม่นยำ 99%</li>
-              <li class="product-feature-item"><span class="check">✓</span> ส่งออกไฟล์ XML สำหรับ Premiere Pro และ DaVinci Resolve ทันที</li>
-              <li class="product-feature-item"><span class="check">✓</span> สร้างซับไตเติลภาษาไทยอัตโนมัติด้วย Whisper AI Engine</li>
-              <li class="product-feature-item"><span class="check">✓</span> ประมวลผลบนเครื่องของคุณ 100% ปลอดภัย ไม่ต้องอัปโหลดขึ้นเน็ต</li>
-            </ul>
-          </div>
-
-          <div class="product-pricing-bar">
-            <div>
-              <span class="price-text">฿249.- <span class="old-price">฿490</span></span>
-              <div style="font-size: 0.75rem; color: #10b981;">สิทธิ์ LIFETIME (ซื้อขาด 1 HWID)</div>
-            </div>
-            <button class="btn-card-action" onclick="openOrderModal('NZEST_CUT', 'NZEST CUT PRO', '249')">
-              🛒 สั่งซื้อทันที
-            </button>
-          </div>
-        </div>
-
-        <!-- CARD 3: NZEST DECK PRO -->
-        <div class="product-card">
-          <div>
-            <div class="product-card-top">
-              <div class="product-icon-wrap">🎮</div>
-              <span class="product-badge-pill">V.0.047 • Exclusive Release</span>
-            </div>
-            <div class="product-category">Live Stream & Remote</div>
-            <h3 class="product-name">NZEST DECK PRO</h3>
-            <p class="product-desc">
-              เปลี่ยนสมาร์ทโฟนหรือแท็บเล็ตของคุณให้กลายเป็น Stream Deck ไร้สาย สั่งเปิดแอป เปลี่ยนซีน OBS และกด Soundboard ได้จากมือถือ
-            </p>
-
-            <ul class="product-features">
-              <li class="product-feature-item"><span class="check">✓</span> สแกน QR Code เพื่อเชื่อมต่อมือถือผ่าน LAN / Wi-Fi ทันที</li>
-              <li class="product-feature-item"><span class="check">✓</span> ควบคุม OBS Studio, ปรับระดับเสียง, เปิดโปรแกรม ด้วย 1-Tap</li>
-              <li class="product-feature-item"><span class="check">✓</span> ปรับแต่งไอคอน สี และปุ่มกดได้อย่างอิสระบนหน้าจอเว็บ</li>
-              <li class="product-feature-item"><span class="check">✓</span> เชื่อมต่อลื่นไหล ไม่ต้องลงแอปเพิ่มเติมในมือถือ</li>
-            </ul>
-          </div>
-
-          <div class="product-pricing-bar">
-            <div>
-              <span class="price-text">เร็วๆ นี้ <span class="old-price">฿390</span></span>
-              <div style="font-size: 0.75rem; color: #a855f7;">Exclusive Streamer Release</div>
-            </div>
-            <button class="btn-card-action" style="background: rgba(255,255,255,0.1); color: #fff; cursor: not-allowed;" disabled>
-              ⏳ เร็วๆ นี้
-            </button>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
 
   <!-- ============================================================================
-       4. WHY CHOOSE NZEST SECTION
+       4. TUTORIALS & VIDEO SHOWCASE (OPTIONAL DYNAMIC)
+       ============================================================================ -->
+  <section class="section" id="tutorials" style="display: none; background: rgba(8, 14, 25, 0.6);">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-badge">Video Guides</span>
+        <h2 class="section-title">วิดีโอแนะนำ & วิธีใช้งาน</h2>
+        <p class="section-desc">เรียนรู้วิธีปลดล็อกพลังของโปรแกรมในเครือ NZEST แบบเข้าใจง่าย</p>
+      </div>
+
+      <div id="tutorialsGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+        <!-- Injected dynamically when tutorials exist in Firestore -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================================
+       5. WHY CHOOSE NZEST SECTION
        ============================================================================ -->
   <section class="section" id="features" style="background: rgba(0, 0, 0, 0.2);">
     <div class="container">
@@ -275,7 +205,7 @@
   </section>
 
   <!-- ============================================================================
-       5. FAQ SECTION
+       6. FAQ SECTION
        ============================================================================ -->
   <section class="section" id="faq">
     <div class="container" style="max-width: 860px;">
@@ -310,7 +240,7 @@
   </section>
 
   <!-- ============================================================================
-       6. DOWNLOAD MODAL
+       7. DOWNLOAD MODAL
        ============================================================================ -->
   <div class="modal-backdrop" id="downloadModal">
     <div class="modal-card">
@@ -318,11 +248,11 @@
       <div style="text-align: center; margin-bottom: 20px;">
         <span style="font-size: 2.5rem;">📥</span>
         <h3 style="font-family: var(--font-heading); color: #fff; font-size: 1.4rem; margin-top: 8px;">ดาวน์โหลด NZEST HUB</h3>
-        <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">เวอร์ชันล่าสุด V.0.058 (Windows 64-bit)</p>
+        <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;" id="modalHubVerText">เวอร์ชันล่าสุด V.0.058 (Windows 64-bit)</p>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 12px;">
-        <a href="https://github.com/nzest1995/NZESTHUB/releases/download/NZESTHUBV.0.054/NZEST-HUB-V.0.054-Setup.zip" class="btn-hero-primary" style="justify-content: center; width: 100%;">
+        <a href="https://github.com/nzest1995/NZESTHUB/releases" class="btn-hero-primary" id="modalHubDirectDownloadLink" style="justify-content: center; width: 100%;">
           <span>⚡ ดาวน์โหลดตัวติดตั้ง NZEST HUB (.exe)</span>
         </a>
         <a href="https://github.com/nzest1995/NZESTHUB/releases" target="_blank" class="btn-hero-secondary" style="justify-content: center; width: 100%;">
@@ -333,7 +263,7 @@
   </div>
 
   <!-- ============================================================================
-       7. ORDER / CHECKOUT MODAL
+       8. ORDER / CHECKOUT MODAL
        ============================================================================ -->
   <div class="modal-backdrop" id="orderModal">
     <div class="modal-card">
@@ -351,7 +281,7 @@
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 10px;">
-        <a href="https://github.com/nzest1995/NZESTHUB/releases" target="_blank" class="btn-hero-primary" style="justify-content: center; width: 100%;">
+        <a href="#downloadModal" onclick="closeModal('orderModal'); openDownloadModal();" class="btn-hero-primary" style="justify-content: center; width: 100%;">
           <span>🚀 ดาวน์โหลด HUB เพื่อสั่งซื้อและรับคีย์ทันที</span>
         </a>
         <button class="btn-hero-secondary" onclick="closeModal('orderModal')" style="justify-content: center; width: 100%;">
@@ -362,7 +292,7 @@
   </div>
 
   <!-- ============================================================================
-       8. FOOTER
+       9. FOOTER
        ============================================================================ -->
   <footer class="footer">
     <div class="container">
@@ -379,7 +309,7 @@
 
         <div class="footer-col">
           <h4>ซอฟต์แวร์ในเครือ</h4>
-          <ul>
+          <ul id="footerAppLinks">
             <li><a href="#products">SFX STUDIO PRO</a></li>
             <li><a href="#products">NZEST CUT PRO</a></li>
             <li><a href="#products">NZEST DECK PRO</a></li>
@@ -404,7 +334,7 @@
     </div>
   </footer>
 
-  <!-- Interactive JavaScript -->
+  <!-- Interactive JavaScript with Real-time Firestore Sync -->
   <script src="app.js"></script>
 </body>
 </html>
